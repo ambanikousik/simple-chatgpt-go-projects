@@ -28,10 +28,17 @@ func GetResponse(clinet gpt3.Client, ctx context.Context, question string) {
 		os.Exit(13)
 	}
 
-	fmt.Println("\n")
+	fmt.Printf("\n")
+}
+
+type NullWriter int
+
+func (NullWriter) Write([]byte) (int, error) {
+	return 0, nil
 }
 
 func main() {
+	log.SetOutput(new(NullWriter))
 	viper.SetConfigFile(".env")
 	viper.ReadInConfig()
 	apiKey := viper.GetString("API_KEY")
